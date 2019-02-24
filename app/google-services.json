@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "970799994095",
+    "firebase_url": "https://cz3003-cms-52714.firebaseio.com",
+    "project_id": "cz3003-cms-52714",
+    "storage_bucket": "cz3003-cms-52714.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970799994095:android:619de3e1582065b8",
+        "android_client_info": {
+          "package_name": "com.ntu.cz3003.CMS"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970799994095-98vdll74hb7h5c1gmhnb1e7agrt5i917.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntu.cz3003.CMS",
+            "certificate_hash": "bb65830e4082a0594dae87fdea243ec62a3c3381"
+          }
+        },
+        {
+          "client_id": "970799994095-5059nsk09n8pnnruju21a1m9gp05un35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdyMif7PDDJ6zvZ8MCzra9KJ0hpcqgf7I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970799994095-5059nsk09n8pnnruju21a1m9gp05un35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
