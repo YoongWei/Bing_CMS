@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "970799994095-863fen0f4gemfr7oe7i26jpahlr8pdn1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntu.cz3003.CMS",
+            "certificate_hash": "e26e6dbf20b0944fbdde1bea0ada07211ee8a93f"
+          }
+        },
+        {
           "client_id": "970799994095-5059nsk09n8pnnruju21a1m9gp05un35.apps.googleusercontent.com",
           "client_type": 3
         }
