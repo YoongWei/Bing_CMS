@@ -7,4 +7,10 @@ public class Constants {
     public static final int REQUEST_CODE_SIGN_IN = 9004;
     public static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 9005;
     public static final int REQUEST_CODE_IMAGE_OPEN= 9006;
+
+    public static final String WASTE_LOCATION_STATUS_OPEN = "open";
+    public static final String WASTE_LOCATION_STATUS_RESERVED = "reserved";
+    public static final String WASTE_LOCATION_STATUS_COLLECTED = "collected";
+
+    public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm";
 }
