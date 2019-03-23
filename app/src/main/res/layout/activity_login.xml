@@ -8,15 +8,15 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="153dp"
-        android:layout_height="152dp"
+        android:layout_width="278dp"
+        android:layout_height="242dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/wastegone_icon_round" />
+        app:srcCompat="@mipmap/cms_logo" />
 
     <TextView
         android:id="@+id/textView5"
@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="WasteGone"
+        android:text="CMS"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
