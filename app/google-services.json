@@ -31,6 +31,22 @@
           }
         },
         {
+          "client_id": "970799994095-2tq8fvecjkd1mfk1pp4mak9kkci2p46r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntu.cz3003.CMS",
+            "certificate_hash": "826d4b6703c108d19b2b8631abe6744c6414c1a3"
+          }
+        },
+        {
+          "client_id": "970799994095-j9g5n4lrgijv2iarsqar0lv7g79fe6fs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntu.cz3003.CMS",
+            "certificate_hash": "697d406936846c702115a739478b478f217a4d9a"
+          }
+        },
+        {
           "client_id": "970799994095-5059nsk09n8pnnruju21a1m9gp05un35.apps.googleusercontent.com",
           "client_type": 3
         }

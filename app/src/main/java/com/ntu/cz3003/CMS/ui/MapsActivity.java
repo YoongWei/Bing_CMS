@@ -98,7 +98,9 @@ import static com.ntu.cz3003.CMS.Constants.REQUEST_CODE_IMAGE_OPEN;
 public class MapsActivity extends AppCompatActivity implements
         OnMapReadyCallback, OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MapsActivity";
-    private static final int DEFAULT_ZOOM = 17;
+    private static final int DEFAULT_ZOOM = 11;
+    private static final int MY_LOCATION_ZOOM = 17;
+    private static final LatLng DEFAULT_SINGAPORE_LOCATION = new LatLng(1.369067, 103.810828);
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -243,11 +245,9 @@ public class MapsActivity extends AppCompatActivity implements
             public void onComplete(@NonNull Task<Location> task) {
                 if (task.isSuccessful()) {
                     mLastLocation = task.getResult();
-                    LatLng latlng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM);
-                    GeoPoint geoPoint = new GeoPoint(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_SINGAPORE_LOCATION, DEFAULT_ZOOM);
                     mMap.moveCamera(cameraUpdate);
-                    locationInput.setText(getAddressName(geoPoint));
                 }
             }
         });
@@ -409,7 +409,7 @@ public class MapsActivity extends AppCompatActivity implements
                 if (task.isSuccessful()) {
                     mLastLocation = task.getResult();
                     LatLng latlng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM);
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, MY_LOCATION_ZOOM);
                     mMap.animateCamera(cameraUpdate);
                     myLocationButton.setColorFilter(Color.argb(255,88,150,228));
                 }
