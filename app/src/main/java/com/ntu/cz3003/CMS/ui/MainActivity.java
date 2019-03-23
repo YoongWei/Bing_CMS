@@ -20,7 +20,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.ntu.cz3003.CMS.Constants;
+
+import static com.ntu.cz3003.CMS.Constants.ERROR_DIALOG_REQUEST;
+import static com.ntu.cz3003.CMS.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.ntu.cz3003.CMS.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
+import static com.ntu.cz3003.CMS.Constants.PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             Log.d(TAG, "isServiceOK: an error occured but we can fix it");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, Constants.ERROR_DIALOG_REQUEST);
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         }
         else {
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(enableGpsIntent, Constants.PERMISSIONS_REQUEST_ENABLE_GPS);
+                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -118,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             }
         }
         else {
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
@@ -132,12 +136,12 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mLocationPermissionGranted = false;
         switch (requestCode) {
-            case Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                 }
             }
-            case Constants.PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+            case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mStoragePermissionGranted = true;
                 }
@@ -150,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: called.");
         switch (requestCode) {
-            case Constants.PERMISSIONS_REQUEST_ENABLE_GPS: {
+            case PERMISSIONS_REQUEST_ENABLE_GPS: {
                 onResume();
             }
         }

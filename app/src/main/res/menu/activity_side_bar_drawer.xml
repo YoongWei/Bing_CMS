@@ -6,10 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_request"
-            android:title="My Requests" />
-        <item
-            android:id="@+id/nav_reservation"
-            android:title="My Reservation" />
+            android:title="My Incidents" />
         <item
             android:id="@+id/nav_logout"
             android:title="Logout" />
