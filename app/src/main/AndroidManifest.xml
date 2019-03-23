@@ -12,16 +12,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/wastegone_logo"
+        android:icon="@mipmap/cms_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/wastegone_icon_round"
+        android:roundIcon="@mipmap/cms_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.ReservationActivity"
-            android:theme="@style/AppTheme.AppBarLayout"></activity>
-        <activity
-            android:name=".ui.RequestActivity"
+            android:name=".ui.IncidentActivity"
             android:theme="@style/AppTheme.AppBarLayout" />
         <activity android:name=".ui.WelcomeActivity">
             <intent-filter>
