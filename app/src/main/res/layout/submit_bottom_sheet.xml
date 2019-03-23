@@ -15,28 +15,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Drop a request"
+        android:text="Drop Incident"
         android:textColor="#000"
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/titleInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Title"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
     <Spinner
-        android:id="@+id/categorySpinner"
+        android:id="@+id/typeCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/remarksInputLayout"
+        android:id="@+id/locationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
-            android:id="@+id/remarksInput"
+            android:id="@+id/locationInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:inputType="text"
-            android:hint="Remarks/Address"/>
+            android:hint="Location"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/locationDescriptionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/locationDescriptionInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Location Description"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/descriptionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/descriptionInput"
+            android:layout_width="match_parent"
+            android:layout_height="119dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Description"
+            android:inputType="textMultiLine" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
@@ -46,22 +87,35 @@
         android:weightSum="10">
 
         <ImageView
-            android:id="@+id/uploadImagePreview"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:id="@+id/uploadImageButton"
+            android:layout_width="60dp"
+            android:layout_height="37dp"
             android:layout_weight="4"
             android:src="@drawable/ic_addimage" />
-        
-        <TextView
-            android:id="@+id/uploadImageTextView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:layout_marginLeft="16dp"
-            android:paddingTop="16dp"
-            android:text="No Image"/>
-
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ProgressBar
+            android:id="@+id/submitRequestProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="124dp"
+            android:layout_height="117dp"
+            android:layout_centerInParent="true"
+            android:layout_weight="4"
+            android:layout_gravity="top"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/showImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4" />
+    </RelativeLayout >
 
     <Button
         android:id="@+id/submitRequestButton"
