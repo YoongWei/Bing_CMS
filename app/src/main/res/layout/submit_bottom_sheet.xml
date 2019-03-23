@@ -40,19 +40,22 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/locationLayout"
+    <TextView
+        android:id="@+id/locationText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="#9E9E9E"
+        android:text="Address"
+        android:inputType="text" />
+        <TextView
             android:id="@+id/locationInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Location"
+            android:textSize="18dp"
             android:inputType="text" />
-    </android.support.design.widget.TextInputLayout>
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/locationDescriptionLayout"
@@ -64,34 +67,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Location Description"
+            android:hint="Location Remarks"
             android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/descriptionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/descriptionInput"
-            android:layout_width="match_parent"
-            android:layout_height="119dp"
-            android:layout_marginBottom="16dp"
-            android:hint="Description"
-            android:inputType="textMultiLine" />
-    </android.support.design.widget.TextInputLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:weightSum="10">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/descriptionLayout"
+        android:layout_width="329dp"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/uploadImageButton"
-            android:layout_width="60dp"
-            android:layout_height="37dp"
-            android:layout_weight="4"
-            android:src="@drawable/ic_addimage" />
+        <EditText
+            android:id="@+id/descriptionInput"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Incident Description"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+    <ImageView
+        android:id="@+id/uploadImageButton"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_weight="4"
+        android:layout_toRightOf="@id/descriptionInput"
+        android:src="@drawable/ic_addimage" />
+
+
     </LinearLayout>
 
     <RelativeLayout

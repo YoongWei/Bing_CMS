@@ -124,7 +124,7 @@ public class MapsActivity extends AppCompatActivity implements
     private ImageView uploadImageButton;
     private ImageView showImage;
     private ProgressBar submitProgressBar;
-    private EditText locationInput;
+    private TextView locationInput;
     private EditText locationDescriptionInput;
     private EditText descriptionInput;
 
@@ -385,7 +385,7 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     private void loadCategoryIntoSpinner() {
-        String[] categories = new String[]{"Aluminium", "E-Waste", "Plastic", "Paper"};
+        String[] categories = new String[]{"Flood", "Fire Incident", "Terrorist Attack", "Chemical Leaking", "Tsunami", "Typhoon"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);

@@ -9,22 +9,22 @@ import java.util.List;
 public class Incidents {
     @Exclude
     private String id;
-    private Date createAt;
-    private String createBy;
+    private Date createdAt;
+    private String createdBy;
     private String description;
     private String incidentNo;
     private GeoPoint location;
     private String locationDescription;
     private String title;
     private String type;
-    private Date updateAt;
+    private Date updatedAt;
     private String status;
 
     public Incidents(){}
 
-    public Incidents(Date createAt, String createBy, String description, GeoPoint location, String locationDescription, String title, String type, String status) {
-        this.createAt = createAt;
-        this.createBy = createBy;
+    public Incidents(Date createdAt, String createdBy, String description, GeoPoint location, String locationDescription, String title, String type, String status) {
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
         this.description = description;
         this.location = location;
         this.locationDescription = locationDescription;
@@ -51,20 +51,20 @@ public class Incidents {
         this.id = id;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getcreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setcreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getcreatedBy() {
+        return createdBy;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setcreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getDescription() {
@@ -99,12 +99,12 @@ public class Incidents {
         this.type = type;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
+    public Date getupdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
+    public void setupdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public GeoPoint getLocation() {

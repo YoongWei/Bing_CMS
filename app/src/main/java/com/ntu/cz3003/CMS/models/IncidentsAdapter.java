@@ -45,9 +45,9 @@ public class IncidentsAdapter extends RecyclerView.Adapter<IncidentsAdapter.MyVi
     @Override
     public void onBindViewHolder(IncidentsAdapter.MyViewHolder holder, int position) {
         Incidents incidents = incidentsList.get(position);
-        holder.title.setText("Title: " + incidents.getTitle());
-        holder.createdAt.setText("CreatedAt "  + incidents.getCreateAt());
-        holder.description.setText("Description: " + incidents.getDescription());
+        holder.title.setText(incidents.getTitle());
+        holder.createdAt.setText(incidents.getcreatedAt().toString());
+        holder.description.setText(incidents.getDescription());
         //holder.geopoints.setText(address);
         //Picasso.get().load(incidents.getImageUri()).into(holder.wasteImage);
     }

@@ -19,26 +19,61 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:layout_marginLeft="5dp"
+                android:textColor="#9E9E9E"
+                android:layout_toRightOf="@id/incident_image"
+                />
+
+            <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/titleText"
                 android:layout_toRightOf="@id/incident_image" />
 
+
+            <TextView
+                android:id="@+id/createdAtText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Created At"
+                android:textColor="#9E9E9E"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@id/title"
+                android:layout_marginTop="5dip"
+                android:layout_toRightOf="@id/incident_image"
+                />
             <TextView
                 android:id="@+id/createdAt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/title"
-                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/createdAtText"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/incident_image" />
 
+
+            <TextView
+                android:id="@+id/descriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textColor="#9E9E9E"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@id/createdAt"
+                android:layout_marginTop="5dip"
+                android:layout_toRightOf="@id/incident_image"
+                />
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/createdAt"
-                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/descriptionText"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/incident_image" />
 
             <de.hdodenhof.circleimageview.CircleImageView
