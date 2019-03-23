@@ -118,7 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                         String username = result.getUser().getDisplayName();
                         userDocument.put("email", email);
                         userDocument.put("name", username);
-                        userDocument.put("rewards", 0);
 
                         db.collection("User").document(result.getUser().getUid()).set(userDocument)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

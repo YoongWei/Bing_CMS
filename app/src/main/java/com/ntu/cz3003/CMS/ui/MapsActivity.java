@@ -100,7 +100,6 @@ public class MapsActivity extends AppCompatActivity implements
     private DrawerLayout drawerLayout;
     private TextView userNameTextView;
     private TextView userEmailTextView;
-    private TextView userRewardsTextView;
     private ImageView userProfileImageView;
 
     private Uri selectedImage;
@@ -145,7 +144,6 @@ public class MapsActivity extends AppCompatActivity implements
         View hView = navigationView.getHeaderView(0);
         userNameTextView = hView.findViewById(R.id.userNameTextView);
         userEmailTextView = hView.findViewById(R.id.userEmailTextView);
-        userRewardsTextView = hView.findViewById(R.id.userRewardsTextView);
         userProfileImageView = hView.findViewById(R.id.userProfileImageView);
     }
 
@@ -155,7 +153,6 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User user = documentSnapshot.toObject(User.class);
-                userRewardsTextView.setText("Rewards: " + user.getRewards());
             }
         });
         userNameTextView.setText(firebaseUser.getDisplayName());
@@ -408,12 +405,7 @@ public class MapsActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_request) {
-            Intent i = new Intent(getApplicationContext(),RequestActivity.class);
-            i.putExtra("FROM_ACTIVITY", "MapsActivity");
-            startActivity(i);
-        }
-        else if (id == R.id.nav_reservation) {
-            Intent i = new Intent(getApplicationContext(),ReservationActivity.class);
+            Intent i = new Intent(getApplicationContext(), IncidentActivity.class);
             i.putExtra("FROM_ACTIVITY", "MapsActivity");
             startActivity(i);
         }
