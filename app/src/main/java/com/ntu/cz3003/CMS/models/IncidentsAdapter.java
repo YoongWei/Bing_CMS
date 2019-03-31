@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class IncidentsAdapter extends RecyclerView.Adapter<IncidentsAdapter.MyViewHolder> {
-    private List<Incidents> incidentsList;
+    private List<Incident> incidentsList;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -30,7 +30,7 @@ public class IncidentsAdapter extends RecyclerView.Adapter<IncidentsAdapter.MyVi
     }
 
 
-    public IncidentsAdapter(List<Incidents> incidentsList) {
+    public IncidentsAdapter(List<Incident> incidentsList) {
         this.incidentsList = incidentsList;
     }
 
@@ -44,12 +44,10 @@ public class IncidentsAdapter extends RecyclerView.Adapter<IncidentsAdapter.MyVi
 
     @Override
     public void onBindViewHolder(IncidentsAdapter.MyViewHolder holder, int position) {
-        Incidents incidents = incidentsList.get(position);
+        Incident incidents = incidentsList.get(position);
         holder.title.setText(incidents.getTitle());
         holder.createdAt.setText(incidents.getcreatedAt().toString());
         holder.description.setText(incidents.getDescription());
-        //holder.geopoints.setText(address);
-        //Picasso.get().load(incidents.getImageUri()).into(holder.wasteImage);
     }
 
     @Override

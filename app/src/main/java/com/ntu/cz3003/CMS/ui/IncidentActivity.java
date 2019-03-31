@@ -8,26 +8,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ntu.cz3003.CMS.R;
-import com.ntu.cz3003.CMS.models.Incidents;
+import com.ntu.cz3003.CMS.models.Incident;
 import com.ntu.cz3003.CMS.models.IncidentsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IncidentActivity extends AppCompatActivity {
-    private List<Incidents> incidentList = new ArrayList<>();
+    private List<Incident> incidentList = new ArrayList<>();
     private RecyclerView recyclerView;
     private IncidentsAdapter mAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -61,7 +59,7 @@ public class IncidentActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Incidents incidents = document.toObject(Incidents.class);
+                        Incident incidents = document.toObject(Incident.class);
                         incidentList.add(incidents);
                     }
                 }

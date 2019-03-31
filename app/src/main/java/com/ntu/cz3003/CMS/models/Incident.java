@@ -1,12 +1,14 @@
 package com.ntu.cz3003.CMS.models;
 
+import android.net.Uri;
+
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Date;
 import java.util.List;
 
-public class Incidents {
+public class Incident {
     @Exclude
     private String id;
     private Date createdAt;
@@ -15,23 +17,14 @@ public class Incidents {
     private String incidentNo;
     private GeoPoint location;
     private String locationDescription;
+    private String status;
     private String title;
     private String type;
     private Date updatedAt;
-    private String status;
+    private String imageUri;
 
-    public Incidents(){}
 
-    public Incidents(Date createdAt, String createdBy, String description, GeoPoint location, String locationDescription, String title, String type, String status) {
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.description = description;
-        this.location = location;
-        this.locationDescription = locationDescription;
-        this.title = title;
-        this.type = type;
-        this.status = status;
-    }
+    public Incident(){}
 
     /**
      * Gets unique ID.
@@ -129,5 +122,13 @@ public class Incidents {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }
