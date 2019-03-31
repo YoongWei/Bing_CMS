@@ -127,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="SUBMIT REQUEST"
+        android:text="SUBMIT INCIDENT"
         android:background="#000"
         android:foreground="?attr/selectableItemBackground"
         android:textColor="#fff"/>
