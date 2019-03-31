@@ -112,9 +112,9 @@ public class MapsActivity extends AppCompatActivity implements
     private FloatingActionButton myLocationButton;
     private FloatingActionButton toggleSubmitBottomSheetButton;
     private BottomSheetBehavior submitFormBottomSheetBehavior;
-    private BottomSheetBehavior wasteLocationDetailBottomSheetBehavior;
+    private BottomSheetBehavior incidentDetailBottomSheetBehavior;
     private LinearLayout submitFormBottomSheet;
-    private LinearLayout wasteLocationDetailBottomSheet;
+    private LinearLayout incidentDetailBottomSheet;
 
     //Submit Form BottomSheet
     private Button submitRequestButton;
@@ -128,18 +128,16 @@ public class MapsActivity extends AppCompatActivity implements
     private EditText locationDescriptionInput;
     private EditText descriptionInput;
 
-    //Waste Location Detail BottomSheet
-/*
+    //Incident Detail BottomSheet
+
     private TextView titleTextView;
     private TextView remarksTextView;
     private TextView statusTextView;
     private TextView requesterNameTextView;
-    private ImageView wasteImageView;
-    private Button reserveCollectButton;
-    private ProgressBar reserveProgressBar;
+    private ImageView incidentImageView;
     private TextView addressTextView;
     private TextView submitDateView;
-*/
+    private TextView addressDescriptionTextView;
 
     //Navigation Drawer
     private NavigationView navigationView;
@@ -178,9 +176,9 @@ public class MapsActivity extends AppCompatActivity implements
         myLocationButton = findViewById(R.id.myLocationButton);
         toggleSubmitBottomSheetButton = findViewById(R.id.toggleBottomSheetButton);
         submitFormBottomSheet = findViewById(R.id.submitFormBottomSheet);
-        wasteLocationDetailBottomSheet = findViewById(R.id.wasteLocationDetailBottomSheet);
+        incidentDetailBottomSheet = findViewById(R.id.incidentDetailBottomSheet);
         submitFormBottomSheetBehavior = BottomSheetBehavior.from(submitFormBottomSheet);
-        wasteLocationDetailBottomSheetBehavior = BottomSheetBehavior.from(wasteLocationDetailBottomSheet);
+        incidentDetailBottomSheetBehavior = BottomSheetBehavior.from(incidentDetailBottomSheet);
 
         submitRequestButton = submitFormBottomSheet.findViewById(R.id.submitRequestButton);
         typeCategory = submitFormBottomSheet.findViewById(R.id.typeCategory);
@@ -192,15 +190,13 @@ public class MapsActivity extends AppCompatActivity implements
         locationDescriptionInput = submitFormBottomSheet.findViewById(R.id.locationDescriptionInput);
         locationInput = submitFormBottomSheet.findViewById(R.id.locationInput);
 
-/*        titleTextView = wasteLocationDetailBottomSheet.findViewById(R.id.titleTextView);
-        remarksTextView = wasteLocationDetailBottomSheet.findViewById(R.id.remarksTextView);
-        statusTextView = wasteLocationDetailBottomSheet.findViewById(R.id.statusTextView);
-        requesterNameTextView = wasteLocationDetailBottomSheet.findViewById(R.id.requesterNameTextView);
-        wasteImageView = wasteLocationDetailBottomSheet.findViewById(R.id.wasteImageView);
-        reserveCollectButton = wasteLocationDetailBottomSheet.findViewById(R.id.reserveCollectButton);
-        reserveProgressBar = wasteLocationDetailBottomSheet.findViewById(R.id.reserveRequestProgressBar);
-        addressTextView = wasteLocationDetailBottomSheet.findViewById(R.id.addressTextView);
-        submitDateView = wasteLocationDetailBottomSheet.findViewById(R.id.submitDateView);*/
+        titleTextView = incidentDetailBottomSheet.findViewById(R.id.titleTextView);
+        remarksTextView = incidentDetailBottomSheet.findViewById(R.id.remarksTextView);
+        requesterNameTextView = incidentDetailBottomSheet.findViewById(R.id.requesterNameTextView);
+        incidentImageView = incidentDetailBottomSheet.findViewById(R.id.incidentImageView);
+        addressTextView = incidentDetailBottomSheet.findViewById(R.id.addressTextView);
+        submitDateView = incidentDetailBottomSheet.findViewById(R.id.submitDateView);
+        addressDescriptionTextView = incidentDetailBottomSheet.findViewById(R.id.addressDescriptionTextView);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -289,7 +285,7 @@ public class MapsActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 submitProgressBar.bringToFront();
                 submitProgressBar.setVisibility(View.VISIBLE);
-                submitWasteRequest();
+                submitIncident();
             }
         });
 
@@ -431,12 +427,12 @@ public class MapsActivity extends AppCompatActivity implements
                     submitFormBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
             }
-            else if (wasteLocationDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            else if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                 Rect outRect = new Rect();
-                wasteLocationDetailBottomSheet.getGlobalVisibleRect(outRect);
+                incidentDetailBottomSheet.getGlobalVisibleRect(outRect);
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-                    wasteLocationDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
             }
         }
@@ -444,7 +440,7 @@ public class MapsActivity extends AppCompatActivity implements
         return super.dispatchTouchEvent(event);
     }
 
-    private void submitWasteRequest() {
+    private void submitIncident() {
         final StorageReference fileReference = mStorageRef.child("images/" + System.currentTimeMillis() + "." + getFileExtension(selectedImage));
         UploadTask uploadTask = fileReference.putFile(selectedImage);
 
@@ -464,8 +460,8 @@ public class MapsActivity extends AppCompatActivity implements
 
                 Date submitDate = Calendar.getInstance().getTime();
 
-                Incidents incidents = new Incidents(submitDate, firebaseUser.getUid(), descriptionInput.getText().toString(), geoPoint, locationDescriptionInput.getText().toString(), titleInput.getText().toString()
-                , typeCategory.getSelectedItem().toString(), "open");
+                Incidents incidents = new Incidents(firebaseUser.getUid(),submitDate, firebaseUser.getUid(), descriptionInput.getText().toString(), geoPoint, locationDescriptionInput.getText().toString(), titleInput.getText().toString()
+                , typeCategory.getSelectedItem().toString(), "open", uri.toString());
 
                 db.collection("incidents").document().set(incidents)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -514,8 +510,8 @@ public class MapsActivity extends AppCompatActivity implements
         else if (submitFormBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             submitFormBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
-        else if (wasteLocationDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            wasteLocationDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        else if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
         else {
             super.onBackPressed();
@@ -562,7 +558,7 @@ public class MapsActivity extends AppCompatActivity implements
     public boolean onMarkerClick(Marker marker) {
         if (marker.getTag() instanceof Incidents) {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-            Incidents wasteLocation = (Incidents) marker.getTag();
+            Incidents incident = (Incidents) marker.getTag();
 
             mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
@@ -571,41 +567,28 @@ public class MapsActivity extends AppCompatActivity implements
                 }
             });
 
-        /*    if (wasteLocationDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                titleTextView.setText(wasteLocation.getCategory());
-                addressTextView.setText("Address: " + wasteLocation.getAddress());
-                remarksTextView.setText("Remarks: " + wasteLocation.getRemarks());
-                statusTextView.setText("Status: " + wasteLocation.getStatus());
-                submitDateView.setText("Submit Date: " + dateFormat.format(wasteLocation.getSubmitDate()));
+            if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                titleTextView.setText(incident.getTitle());
+                addressTextView.setText(getAddressName(incident.getLocation()));
+                remarksTextView.setText(incident.getDescription());
+                submitDateView.setText(dateFormat.format(incident.getcreatedAt()));
+                addressDescriptionTextView.setText(incident.getLocationDescription());
 
-                if (wasteLocation.getStatus().equals(WASTE_LOCATION_STATUS_OPEN)) {
-                    reserveCollectButton.setText("Reserve");
-                    reserveCollectButton.setTag(wasteLocation);
-                }
-                else if (wasteLocation.getStatus().equals(WASTE_LOCATION_STATUS_RESERVED) && firebaseUser.getUid().equals(wasteLocation.getCollectorUid())) {
-                    reserveCollectButton.setText("Collect");
-                    reserveCollectButton.setTag(wasteLocation);
-                }
-                else {
-                    reserveCollectButton.setText("Collected, Closed");
-                    reserveCollectButton.setEnabled(false);
-                    reserveCollectButton.setBackgroundColor(Color.parseColor("gray"));
-                }
-
-                db.collection("User").document(wasteLocation.getRequesterUid()).get()
+                db.collection("User").document(incident.getRequesterUid()).get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 User user = documentSnapshot.toObject(User.class);
-                                requesterNameTextView.setText("Drop by: " + user.getName());
+                                requesterNameTextView.setText(user.getName());
                             }
                         });
-                Picasso.get().load(wasteLocation.getImageUri()).into(wasteImageView);
-                wasteLocationDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                Picasso.get().load(incident.getImageUri()).into(incidentImageView);
+                incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
             else {
-                wasteLocationDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }*/
+                incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
         }
 
         return false;

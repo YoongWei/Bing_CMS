@@ -19,10 +19,12 @@ public class Incidents {
     private String type;
     private Date updatedAt;
     private String status;
+    private String requesterUid;
+    private String imageUri;
 
     public Incidents(){}
 
-    public Incidents(Date createdAt, String createdBy, String description, GeoPoint location, String locationDescription, String title, String type, String status) {
+    public Incidents(String requesterUid, Date createdAt, String createdBy, String description, GeoPoint location, String locationDescription, String title, String type, String status, String imageUri) {
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.description = description;
@@ -31,6 +33,8 @@ public class Incidents {
         this.title = title;
         this.type = type;
         this.status = status;
+        this.requesterUid = requesterUid;
+        this.imageUri = imageUri;
     }
 
     /**
@@ -49,6 +53,14 @@ public class Incidents {
     @Exclude
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRequesterUid() {
+        return requesterUid;
+    }
+
+    public void setRequesterUid(String requesterUid) {
+        this.requesterUid = requesterUid;
     }
 
     public Date getcreatedAt() {
@@ -129,5 +141,13 @@ public class Incidents {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }

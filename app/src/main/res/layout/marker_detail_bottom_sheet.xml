@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/wasteLocationDetailBottomSheet"
+    android:id="@+id/incidentDetailBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
+    android:background="@drawable/background_with_shadow"
     android:orientation="vertical"
     android:padding="16dp"
     app:behavior_hideable="true"
@@ -12,32 +12,107 @@
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/recycle_detail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Category"/>
+        android:layout_marginBottom="30dp"
+        android:text="Incident Detail"
+        android:textColor="#FFF"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Remarks"/>
+        android:layout_marginBottom="10dp">
+        <EditText
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:inputType="text"
+            android:focusable="false" />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Status"/>
+        android:layout_marginBottom="10dp">
+        <EditText
+            android:id="@+id/addressTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"
+            android:inputType="text"
+            android:focusable="false" />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Created By"/>
+        android:layout_marginBottom="10dp">
+        <EditText
+            android:id="@+id/addressDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location Description"
+            android:inputType="text"
+            android:focusable="false" />
+    </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <EditText
+            android:id="@+id/remarksTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Remarks"
+            android:inputType="text"
+            android:focusable="false" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+            <EditText
+                android:id="@+id/requesterNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Drop By"
+                android:inputType="text"
+                android:focusable="false" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+            <EditText
+                android:id="@+id/submitDateView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Created On"
+                android:inputType="text"
+                android:focusable="false" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/incidentImageView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="10dp"/>
 </LinearLayout>
