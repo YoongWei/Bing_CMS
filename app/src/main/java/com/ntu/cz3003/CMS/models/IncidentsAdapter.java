@@ -48,6 +48,8 @@ public class IncidentsAdapter extends RecyclerView.Adapter<IncidentsAdapter.MyVi
         holder.title.setText(incidents.getTitle());
         holder.createdAt.setText(incidents.getcreatedAt().toString());
         holder.description.setText(incidents.getDescription());
+        //holder.geopoints.setText(address);
+        Picasso.get().load(incidents.getImageUri()).into(holder.incidentsImage);
     }
 
     @Override

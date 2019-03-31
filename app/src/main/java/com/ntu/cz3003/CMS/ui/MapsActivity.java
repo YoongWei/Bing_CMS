@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.location.Address;
@@ -19,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +46,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Continuation;
@@ -139,6 +142,16 @@ public class MapsActivity extends AppCompatActivity implements
     private TextView incidentDescriptionTextView;
     private TextView reportDateTextView;
 
+    //Incident Detail BottomSheet
+    private TextView titleTextView;
+    private TextView remarksTextView;
+    private TextView statusTextView;
+    private TextView requesterNameTextView;
+    private ImageView incidentImageView;
+    private TextView addressTextView;
+    private TextView submitDateView;
+    private TextView addressDescriptionTextView;
+
     //Navigation Drawer
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -196,6 +209,13 @@ public class MapsActivity extends AppCompatActivity implements
         incidentDescriptionTextView = incidentDetailBottomSheet.findViewById(R.id.incidentDescriptionTextView);
         reportDateTextView = incidentDetailBottomSheet.findViewById(R.id.reportDateTextView);
 
+        remarksTextView = incidentDetailBottomSheet.findViewById(R.id.remarksTextView);
+        requesterNameTextView = incidentDetailBottomSheet.findViewById(R.id.requesterNameTextView);
+        incidentImageView = incidentDetailBottomSheet.findViewById(R.id.incidentImageView);
+        addressTextView = incidentDetailBottomSheet.findViewById(R.id.addressTextView);
+        submitDateView = incidentDetailBottomSheet.findViewById(R.id.submitDateView);
+        addressDescriptionTextView = incidentDetailBottomSheet.findViewById(R.id.addressDescriptionTextView);
+
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -219,6 +239,17 @@ public class MapsActivity extends AppCompatActivity implements
         }
 
         mMap = googleMap;
+        try {
+            boolean success = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.night_map));
+
+            if (!success) {
+                Log.e("MapsActivityRaw", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsActivityRaw", "Can't find style.", e);
+        }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -276,7 +307,7 @@ public class MapsActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 submitProgressBar.bringToFront();
                 submitProgressBar.setVisibility(View.VISIBLE);
-                submitWasteRequest();
+                submitIncident();
             }
         });
 
@@ -442,12 +473,11 @@ public class MapsActivity extends AppCompatActivity implements
         return super.dispatchTouchEvent(event);
     }
 
-    private void submitWasteRequest() {
-        incidentCounter++;
+    private void submitIncident() {
+		incidentCounter++;
         Map<String, Integer> data = new HashMap<>();
         data.put("lastInsertedId", incidentCounter);
         incidentCounterDocument.set(data);
-
         final StorageReference fileReference = mStorageRef.child("images/" + System.currentTimeMillis() + "." + getFileExtension(selectedImage));
         UploadTask uploadTask = fileReference.putFile(selectedImage);
 
@@ -478,6 +508,15 @@ public class MapsActivity extends AppCompatActivity implements
                 incident.setupdatedAt(new Date());
 
                 db.collection("Incident").document().set(incident)
+
+                final GeoPoint geoPoint = new GeoPoint(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+                Date submitDate = Calendar.getInstance().getTime();
+
+                Incidents incidents = new Incidents(firebaseUser.getUid(),submitDate, firebaseUser.getUid(), descriptionInput.getText().toString(), geoPoint, locationDescriptionInput.getText().toString(), titleInput.getText().toString()
+                , typeCategory.getSelectedItem().toString(), "open", uri.toString());
+
+                db.collection("incidents").document().set(incidents)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -574,6 +613,34 @@ public class MapsActivity extends AppCompatActivity implements
             Incident incident = (Incident) marker.getTag();
 
             if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+        if (marker.getTag() instanceof Incidents) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+            Incidents incident = (Incidents) marker.getTag();
+
+            mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    mLastLocation = task.getResult();
+                }
+            });
+
+            if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                titleTextView.setText(incident.getTitle());
+                addressTextView.setText(getAddressName(incident.getLocation()));
+                remarksTextView.setText(incident.getDescription());
+                submitDateView.setText(dateFormat.format(incident.getcreatedAt()));
+                addressDescriptionTextView.setText(incident.getLocationDescription());
+
+                db.collection("User").document(incident.getRequesterUid()).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                User user = documentSnapshot.toObject(User.class);
+                                requesterNameTextView.setText(user.getName());
+                            }
+                        });
+
+                Picasso.get().load(incident.getImageUri()).into(incidentImageView);
                 incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
             else {

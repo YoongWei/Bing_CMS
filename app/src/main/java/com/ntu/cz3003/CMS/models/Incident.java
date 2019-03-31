@@ -23,7 +23,6 @@ public class Incident {
     private Date updatedAt;
     private String imageUri;
 
-
     public Incident(){}
 
     /**
@@ -42,6 +41,14 @@ public class Incident {
     @Exclude
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRequesterUid() {
+        return requesterUid;
+    }
+
+    public void setRequesterUid(String requesterUid) {
+        this.requesterUid = requesterUid;
     }
 
     public Date getcreatedAt() {

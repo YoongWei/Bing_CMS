@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="AppTheme.AppBarLayout" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.AppBarLayout" parent="Theme.AppCompat">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/appColor</item>

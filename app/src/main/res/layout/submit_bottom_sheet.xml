@@ -4,7 +4,7 @@
     android:id="@+id/submitFormBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
+    android:background="@drawable/background_with_shadow"
     android:orientation="vertical"
     android:padding="16dp"
     app:behavior_hideable="true"
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="Drop Incident"
-        android:textColor="#000"
+        android:textColor="#FFF"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -127,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="SUBMIT REQUEST"
+        android:text="SUBMIT INCIDENT"
         android:background="#000"
         android:foreground="?attr/selectableItemBackground"
         android:textColor="#fff"/>
