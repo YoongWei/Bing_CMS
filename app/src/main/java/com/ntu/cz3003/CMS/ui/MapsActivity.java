@@ -299,8 +299,10 @@ public class MapsActivity extends AppCompatActivity implements
         submitRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitProgressBar.bringToFront();
+                submitRequestButton.setEnabled(false);
                 submitProgressBar.setVisibility(View.VISIBLE);
+                submitProgressBar.bringToFront();
+                submitRequestButton.setText("");
                 submitIncident();
             }
         });
@@ -463,6 +465,11 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     private void submitIncident() {
+        if (selectedImage == null) {
+            Toast.makeText(this, "Please select photo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 		incidentCounter++;
         Map<String, Integer> data = new HashMap<>();
         data.put("lastInsertId", incidentCounter);
@@ -501,15 +508,28 @@ public class MapsActivity extends AppCompatActivity implements
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(MapsActivity.this, "Incident added", Toast.LENGTH_SHORT).show();
-                                submitProgressBar.setVisibility(View.INVISIBLE);
+
                                 submitFormBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                                titleInput.setText("");
+                                locationDescriptionInput.setText("");
+                                descriptionInput.setText("");
+                                selectedImage = null;
+                                showImage.setImageResource(0);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                submitProgressBar.setVisibility(View.INVISIBLE);
                                 Toast.makeText(MapsActivity.this, "Unable to add", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                submitProgressBar.setVisibility(View.INVISIBLE);
+                                submitRequestButton.setEnabled(true);
+                                submitRequestButton.setText("SUBMIT REQUEST");
                             }
                         });
             }
