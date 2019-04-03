@@ -10,10 +10,10 @@ public class Constants {
 
     public static final String CMS_STATUS_PENDING = "pending";
     public static final String CMS_STATUS_OPEN = "open";
-    public static final String CMS_STATUS_RESERVED = "reserved";
+    public static final String CMS_STATUS_CLOSED = "closed";
 
     public static final String CMS_PREFIX = "CMS-";
-    public static final String CMS_PREFIX_NUMBER_FORMAT = "%6d";
+    public static final String CMS_PREFIX_NUMBER_FORMAT = "%06d";
 
     public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm";
 

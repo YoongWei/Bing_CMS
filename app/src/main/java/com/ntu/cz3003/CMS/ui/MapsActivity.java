@@ -71,10 +71,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ntu.cz3003.CMS.R;
 import com.ntu.cz3003.CMS.models.Incident;
+import com.ntu.cz3003.CMS.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,12 +84,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import static com.ntu.cz3003.CMS.Constants.CMS_PREFIX;
-import static com.ntu.cz3003.CMS.Constants.CMS_PREFIX_NUMBER_FORMAT;
-import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_OPEN;
-import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_PENDING;
-import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_RESERVED;
-import static com.ntu.cz3003.CMS.Constants.REQUEST_CODE_IMAGE_OPEN;
+import static com.ntu.cz3003.CMS.Constants.*;
 
 /**
  MapActivity class displays map , waste location and handling submit request, make
@@ -135,20 +131,18 @@ public class MapsActivity extends AppCompatActivity implements
     private EditText locationDescriptionInput;
     private EditText descriptionInput;
 
+
+    //Incident Detail BottomSheet
     private TextView titleTextView;
     private TextView incidentTypeTextView;
     private TextView addressTextView;
     private TextView locationDescriptionTextView;
     private TextView incidentDescriptionTextView;
     private TextView reportDateTextView;
-
-    //Incident Detail BottomSheet
-    private TextView titleTextView;
     private TextView remarksTextView;
     private TextView statusTextView;
     private TextView requesterNameTextView;
     private ImageView incidentImageView;
-    private TextView addressTextView;
     private TextView submitDateView;
     private TextView addressDescriptionTextView;
 
@@ -325,24 +319,6 @@ public class MapsActivity extends AppCompatActivity implements
     private void subscribeIncident() {
         final CollectionReference incidentsCollection = db.collection("incidents");
 
-        incidentsCollection
-                .whereEqualTo("status", CMS_STATUS_OPEN).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Incident Incident = document.toObject(Incident.class);
-                        Incident.setId(document.getId());
-                            LatLng latlng = new LatLng(Incident.getLocation().getLatitude(), Incident.getLocation().getLongitude());
-                            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
-                            marker.setTag(Incident);
-                            mapMarkerManager.put(Incident.getId(), marker);
-
-                    }
-                }
-            }
-        });
-
         incidentCounterDocument.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -350,67 +326,80 @@ public class MapsActivity extends AppCompatActivity implements
                     return;
                 }
 
-                incidentCounter = Integer.parseInt(documentSnapshot.get("lastInsertedId").toString());
+                incidentCounter = Integer.parseInt(documentSnapshot.get("lastInsertId").toString());
             }
         });
 
-        incidentsCollection
-                .whereEqualTo("status", CMS_STATUS_OPEN)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
+        incidentsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Incident incident = document.toObject(Incident.class);
+
+                        if (incident.getStatus().equals(CMS_STATUS_CLOSED)) {
                             return;
-                        }
-
-                        for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                            Incident Incident = dc.getDocument().toObject(Incident.class);
-                            Incident.setId(dc.getDocument().getId());
-                            LatLng latlng = new LatLng(Incident.getLocation().getLatitude(), Incident.getLocation().getLongitude());
-
-                            Marker existingMarker = mapMarkerManager.get(Incident.getId());
-
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    if (existingMarker == null) {
-                                        Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
-                                        marker.setTag(Incident);
-                                        mapMarkerManager.put(Incident.getId(), marker);
-                                    }
-
-                                    break;
-                                case REMOVED:
-                                    if (existingMarker != null) {
-                                        existingMarker.remove();
-                                        mapMarkerManager.remove(Incident.getId());
-                                    }
-                                    break;
-                                case MODIFIED:
-                                    if (Incident.getStatus().equals(CMS_STATUS_OPEN) || (Incident.getStatus().equals(CMS_STATUS_RESERVED) )) {
-                                        if (existingMarker != null) {
-                                            existingMarker.setPosition(latlng);
-                                            existingMarker.setTitle(Incident.getType());
-                                            existingMarker.setTag(Incident);
-
-                                            mapMarkerManager.put(Incident.getId(), existingMarker);
-                                        }
-                                        else {
-                                            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
-                                            marker.setTag(Incident);
-                                            mapMarkerManager.put(Incident.getId(), marker);
-                                        }
-                                    }
-                                    else {
-                                        if (existingMarker != null) {
-                                            existingMarker.remove();
-                                            mapMarkerManager.remove(Incident.getId());
-                                        }
-                                    }
-                                    break;
-                            }
+                        } else {
+                            incident.setId(document.getId());
+                            LatLng latlng = new LatLng(incident.getLocation().getLatitude(), incident.getLocation().getLongitude());
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()));
+                            marker.setTag(incident);
+                            mapMarkerManager.put(incident.getId(), marker);
                         }
                     }
-                });
+                }
+            }
+        });
+
+        incidentsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    Incident Incident = dc.getDocument().toObject(Incident.class);
+                    Incident.setId(dc.getDocument().getId());
+                    LatLng latlng = new LatLng(Incident.getLocation().getLatitude(), Incident.getLocation().getLongitude());
+
+                    Marker existingMarker = mapMarkerManager.get(Incident.getId());
+
+                    switch (dc.getType()) {
+                        case ADDED:
+                            if (existingMarker == null) {
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
+                                marker.setTag(Incident);
+                                mapMarkerManager.put(Incident.getId(), marker);
+                            }
+
+                            break;
+                        case REMOVED:
+                            if (existingMarker != null) {
+                                existingMarker.remove();
+                                mapMarkerManager.remove(Incident.getId());
+                            }
+                            break;
+
+                        case MODIFIED:
+                            if (existingMarker != null) {
+                                existingMarker.setPosition(latlng);
+                                existingMarker.setTitle(Incident.getType());
+                                existingMarker.setTag(Incident);
+
+                                mapMarkerManager.put(Incident.getId(), existingMarker);
+                            }
+                            else {
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
+                                marker.setTag(Incident);
+                                mapMarkerManager.put(Incident.getId(), marker);
+                            }
+
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     private void loadCategoryIntoSpinner() {
@@ -476,7 +465,7 @@ public class MapsActivity extends AppCompatActivity implements
     private void submitIncident() {
 		incidentCounter++;
         Map<String, Integer> data = new HashMap<>();
-        data.put("lastInsertedId", incidentCounter);
+        data.put("lastInsertId", incidentCounter);
         incidentCounterDocument.set(data);
         final StorageReference fileReference = mStorageRef.child("images/" + System.currentTimeMillis() + "." + getFileExtension(selectedImage));
         UploadTask uploadTask = fileReference.putFile(selectedImage);
@@ -496,8 +485,8 @@ public class MapsActivity extends AppCompatActivity implements
                 GeoPoint geoPoint = new GeoPoint(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
                 Incident incident = new Incident();
-                incident.setcreatedAt(new Date());
-                incident.setcreatedBy(firebaseUser.getUid());
+                incident.setCreatedAt(new Date());
+                incident.setCreatedBy(firebaseUser.getUid());
                 incident.setDescription(descriptionInput.getText().toString());
                 incident.setIncidentNo(CMS_PREFIX + String.format(CMS_PREFIX_NUMBER_FORMAT, incidentCounter));
                 incident.setLocation(geoPoint);
@@ -505,18 +494,9 @@ public class MapsActivity extends AppCompatActivity implements
                 incident.setStatus(CMS_STATUS_PENDING);
                 incident.setTitle(titleInput.getText().toString());
                 incident.setType(typeCategory.getSelectedItem().toString());
-                incident.setupdatedAt(new Date());
+                incident.setUpdatedAt(new Date());
 
-                db.collection("Incident").document().set(incident)
-
-                final GeoPoint geoPoint = new GeoPoint(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-                Date submitDate = Calendar.getInstance().getTime();
-
-                Incidents incidents = new Incidents(firebaseUser.getUid(),submitDate, firebaseUser.getUid(), descriptionInput.getText().toString(), geoPoint, locationDescriptionInput.getText().toString(), titleInput.getText().toString()
-                , typeCategory.getSelectedItem().toString(), "open", uri.toString());
-
-                db.collection("incidents").document().set(incidents)
+                db.collection("incidents").document().set(incident)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -610,12 +590,8 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (marker.getTag() instanceof Incident) {
-            Incident incident = (Incident) marker.getTag();
-
-            if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-        if (marker.getTag() instanceof Incidents) {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-            Incidents incident = (Incidents) marker.getTag();
+            Incident incident = (Incident) marker.getTag();
 
             mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
@@ -628,10 +604,10 @@ public class MapsActivity extends AppCompatActivity implements
                 titleTextView.setText(incident.getTitle());
                 addressTextView.setText(getAddressName(incident.getLocation()));
                 remarksTextView.setText(incident.getDescription());
-                submitDateView.setText(dateFormat.format(incident.getcreatedAt()));
+                submitDateView.setText(dateFormat.format(incident.getCreatedAt()));
                 addressDescriptionTextView.setText(incident.getLocationDescription());
 
-                db.collection("User").document(incident.getRequesterUid()).get()
+                db.collection("User").document(incident.getCreatedBy()).get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {

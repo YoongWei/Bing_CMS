@@ -43,27 +43,19 @@ public class Incident {
         this.id = id;
     }
 
-    public String getRequesterUid() {
-        return requesterUid;
-    }
-
-    public void setRequesterUid(String requesterUid) {
-        this.requesterUid = requesterUid;
-    }
-
-    public Date getcreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setcreatedAt(Date createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getcreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setcreatedBy(String createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -81,30 +73,6 @@ public class Incident {
 
     public void setIncidentNo(String incidentNo) {
         this.incidentNo = incidentNo;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getupdatedAt() {
-        return updatedAt;
-    }
-
-    public void setupdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public GeoPoint getLocation() {
@@ -129,6 +97,30 @@ public class Incident {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getImageUri() {

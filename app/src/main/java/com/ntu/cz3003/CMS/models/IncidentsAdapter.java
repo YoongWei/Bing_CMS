@@ -46,7 +46,7 @@ public class IncidentsAdapter extends RecyclerView.Adapter<IncidentsAdapter.MyVi
     public void onBindViewHolder(IncidentsAdapter.MyViewHolder holder, int position) {
         Incident incidents = incidentsList.get(position);
         holder.title.setText(incidents.getTitle());
-        holder.createdAt.setText(incidents.getcreatedAt().toString());
+        holder.createdAt.setText(incidents.getCreatedAt().toString());
         holder.description.setText(incidents.getDescription());
         //holder.geopoints.setText(address);
         Picasso.get().load(incidents.getImageUri()).into(holder.incidentsImage);
