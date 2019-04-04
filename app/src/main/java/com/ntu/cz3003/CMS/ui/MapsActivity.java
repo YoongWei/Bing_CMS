@@ -499,6 +499,7 @@ public class MapsActivity extends AppCompatActivity implements
                 incident.setTitle(titleInput.getText().toString());
                 incident.setType(typeCategory.getSelectedItem().toString());
                 incident.setUpdatedAt(new Date());
+                incident.setImageUri(uri.toString());
 
                 db.collection("incidents").document().set(incident)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
