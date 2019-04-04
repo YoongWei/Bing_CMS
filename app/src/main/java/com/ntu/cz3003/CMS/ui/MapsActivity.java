@@ -84,7 +84,12 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import static com.ntu.cz3003.CMS.Constants.*;
+import static com.ntu.cz3003.CMS.Constants.CMS_PREFIX;
+import static com.ntu.cz3003.CMS.Constants.CMS_PREFIX_NUMBER_FORMAT;
+import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_CLOSED;
+import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_PENDING;
+import static com.ntu.cz3003.CMS.Constants.DATE_FORMAT;
+import static com.ntu.cz3003.CMS.Constants.REQUEST_CODE_IMAGE_OPEN;
 
 /**
  MapActivity class displays map , waste location and handling submit request, make
@@ -131,16 +136,11 @@ public class MapsActivity extends AppCompatActivity implements
     private EditText locationDescriptionInput;
     private EditText descriptionInput;
 
-
     //Incident Detail BottomSheet
     private TextView titleTextView;
-    private TextView incidentTypeTextView;
+    private EditText incidentTypeTextView;
     private TextView addressTextView;
-    private TextView locationDescriptionTextView;
-    private TextView incidentDescriptionTextView;
-    private TextView reportDateTextView;
     private TextView remarksTextView;
-    private TextView statusTextView;
     private TextView requesterNameTextView;
     private ImageView incidentImageView;
     private TextView submitDateView;
@@ -199,9 +199,6 @@ public class MapsActivity extends AppCompatActivity implements
         titleTextView = incidentDetailBottomSheet.findViewById(R.id.titleTextView);
         incidentTypeTextView = incidentDetailBottomSheet.findViewById(R.id.incidentTypeTextView);
         addressTextView = incidentDetailBottomSheet.findViewById(R.id.addressTextView);
-        locationDescriptionTextView = incidentDetailBottomSheet.findViewById(R.id.locationDescriptionTextView);
-        incidentDescriptionTextView = incidentDetailBottomSheet.findViewById(R.id.incidentDescriptionTextView);
-        reportDateTextView = incidentDetailBottomSheet.findViewById(R.id.reportDateTextView);
 
         remarksTextView = incidentDetailBottomSheet.findViewById(R.id.remarksTextView);
         requesterNameTextView = incidentDetailBottomSheet.findViewById(R.id.requesterNameTextView);
@@ -622,6 +619,7 @@ public class MapsActivity extends AppCompatActivity implements
 
             if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
                 titleTextView.setText(incident.getTitle());
+                incidentTypeTextView.setText(incident.getType());
                 addressTextView.setText(getAddressName(incident.getLocation()));
                 remarksTextView.setText(incident.getDescription());
                 submitDateView.setText(dateFormat.format(incident.getCreatedAt()));

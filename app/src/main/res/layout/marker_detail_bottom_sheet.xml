@@ -12,50 +12,25 @@
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <TextView
-        android:id="@+id/recycle_detail"
+        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-    
-    <TextView
-        android:id="@+id/incidentTypeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/addressTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/locationDescriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/incidentDescriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/reportDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginBottom="30dp"
+        android:textColor="#FFF"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textAlignment="center" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
         <EditText
-            android:id="@+id/titleTextView"
+            android:id="@+id/incidentTypeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
-            android:inputType="text"
-            android:focusable="false" />
+            android:hint="Incident Type"
+            android:focusable="false"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -79,7 +54,7 @@
             android:id="@+id/addressDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Location Description"
+            android:hint="Location Remarks"
             android:inputType="text"
             android:focusable="false" />
     </android.support.design.widget.TextInputLayout>
@@ -92,7 +67,7 @@
             android:id="@+id/remarksTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Remarks"
+            android:hint="Incident Description"
             android:inputType="text"
             android:focusable="false" />
     </android.support.design.widget.TextInputLayout>
@@ -129,13 +104,11 @@
                 android:inputType="text"
                 android:focusable="false" />
         </android.support.design.widget.TextInputLayout>
-
     </LinearLayout>
-
 
     <ImageView
         android:id="@+id/incidentImageView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_height="100dp" />
+
 </LinearLayout>
