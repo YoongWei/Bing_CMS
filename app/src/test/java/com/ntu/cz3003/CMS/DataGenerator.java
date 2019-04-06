@@ -1,19 +1,24 @@
 package com.ntu.cz3003.CMS;
 
-import android.util.Log;
-
 import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.ntu.cz3003.CMS.models.Incident;
 
+import java.io.IOException;
 import java.util.Date;
 
 import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_PENDING;
 
 public class DataGenerator {
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        for (int i = 0; i < 5; i++) {
+            insertData();
+        }
+    }
+    private static void insertData() {
         GeoPoint geoPoint = new GeoPoint(1, 1);
         Incident incident = new Incident();
         incident.setCreatedAt(new Date());
@@ -33,7 +38,7 @@ public class DataGenerator {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("generator", "data has been generated.");
+                        System.out.println("incident has been generated.");
                     }
                 });
     }
