@@ -45,6 +45,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -87,6 +89,7 @@ import javax.annotation.Nullable;
 import static com.ntu.cz3003.CMS.Constants.CMS_PREFIX;
 import static com.ntu.cz3003.CMS.Constants.CMS_PREFIX_NUMBER_FORMAT;
 import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_CLOSED;
+import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_OPEN;
 import static com.ntu.cz3003.CMS.Constants.CMS_STATUS_PENDING;
 import static com.ntu.cz3003.CMS.Constants.DATE_FORMAT;
 import static com.ntu.cz3003.CMS.Constants.REQUEST_CODE_IMAGE_OPEN;
@@ -341,7 +344,7 @@ public class MapsActivity extends AppCompatActivity implements
                         } else {
                             incident.setId(document.getId());
                             LatLng latlng = new LatLng(incident.getLocation().getLatitude(), incident.getLocation().getLongitude());
-                            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()));
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()).icon(getMarkerColorByIncidentStatus(incident.getStatus())));
                             marker.setTag(incident);
                             mapMarkerManager.put(incident.getId(), marker);
                         }
@@ -358,40 +361,40 @@ public class MapsActivity extends AppCompatActivity implements
                 }
 
                 for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                    Incident Incident = dc.getDocument().toObject(Incident.class);
-                    Incident.setId(dc.getDocument().getId());
-                    LatLng latlng = new LatLng(Incident.getLocation().getLatitude(), Incident.getLocation().getLongitude());
+                    Incident incident = dc.getDocument().toObject(Incident.class);
+                    incident.setId(dc.getDocument().getId());
+                    LatLng latlng = new LatLng(incident.getLocation().getLatitude(), incident.getLocation().getLongitude());
 
-                    Marker existingMarker = mapMarkerManager.get(Incident.getId());
+                    Marker existingMarker = mapMarkerManager.get(incident.getId());
 
                     switch (dc.getType()) {
                         case ADDED:
                             if (existingMarker == null) {
-                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
-                                marker.setTag(Incident);
-                                mapMarkerManager.put(Incident.getId(), marker);
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()).icon(getMarkerColorByIncidentStatus(incident.getStatus())));
+                                marker.setTag(incident);
+                                mapMarkerManager.put(incident.getId(), marker);
                             }
 
                             break;
                         case REMOVED:
                             if (existingMarker != null) {
                                 existingMarker.remove();
-                                mapMarkerManager.remove(Incident.getId());
+                                mapMarkerManager.remove(incident.getId());
                             }
                             break;
 
                         case MODIFIED:
                             if (existingMarker != null) {
                                 existingMarker.setPosition(latlng);
-                                existingMarker.setTitle(Incident.getType());
-                                existingMarker.setTag(Incident);
+                                existingMarker.setTitle(incident.getType());
+                                existingMarker.setTag(incident);
 
-                                mapMarkerManager.put(Incident.getId(), existingMarker);
+                                mapMarkerManager.put(incident.getId(), existingMarker);
                             }
                             else {
-                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(Incident.getType()));
-                                marker.setTag(Incident);
-                                mapMarkerManager.put(Incident.getId(), marker);
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()));
+                                marker.setTag(incident);
+                                mapMarkerManager.put(incident.getId(), marker);
                             }
 
                             break;
@@ -661,4 +664,14 @@ public class MapsActivity extends AppCompatActivity implements
         }
     }
 
+    private BitmapDescriptor getMarkerColorByIncidentStatus(String status) {
+        if (status.equals(CMS_STATUS_PENDING)) {
+            return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+        }
+        else if (status.equals(CMS_STATUS_OPEN)) {
+            return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        }
+
+        return BitmapDescriptorFactory.defaultMarker();
+    }
 }
