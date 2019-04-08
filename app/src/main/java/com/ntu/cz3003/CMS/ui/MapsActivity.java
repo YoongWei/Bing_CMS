@@ -328,7 +328,7 @@ public class MapsActivity extends AppCompatActivity implements
                     return;
                 }
 
-                incidentCounter = Integer.parseInt(documentSnapshot.get("lastInsertId").toString());
+                incidentCounter = Integer.parseInt(documentSnapshot.get("lastInsertedId").toString());
             }
         });
 
@@ -472,7 +472,7 @@ public class MapsActivity extends AppCompatActivity implements
 
 		incidentCounter++;
         Map<String, Integer> data = new HashMap<>();
-        data.put("lastInsertId", incidentCounter);
+        data.put("lastInsertedId", incidentCounter);
         incidentCounterDocument.set(data);
         final StorageReference fileReference = mStorageRef.child("images/" + System.currentTimeMillis() + "." + getFileExtension(selectedImage));
         UploadTask uploadTask = fileReference.putFile(selectedImage);
