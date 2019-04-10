@@ -72,6 +72,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ntu.cz3003.CMS.R;
+import com.ntu.cz3003.CMS.models.Category;
 import com.ntu.cz3003.CMS.models.Incident;
 import com.ntu.cz3003.CMS.models.User;
 import com.squareup.picasso.Picasso;
@@ -405,16 +406,25 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     private void loadCategoryIntoSpinner() {
-        String[] categories = new String[]{"Flood", "Fire Incident", "Terrorist Attack", "Chemical Leaking", "Tsunami", "Typhoon"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories) {
+
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, new Category[]{
+                new Category("terroristAttack", "Terrorist attack"),
+                new Category("violenceRiots", "Violence/Riots"),
+                new Category("fire", "Fire"),
+                new Category("dengueZika", "Dengue & Zika"),
+                new Category("floor", "Flood"),
+                new Category("chemicalLeaking", "Chemical Leaking"),
+                new Category("tsunami", "Tsunami"),
+                new Category("typhoon", "Typhoon")
+        }) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(16);
                 return v;
             }
 
-            public View getDropDownView(int position, View convertView,ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView,parent);
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
                 ((TextView) v).setGravity(Gravity.CENTER);
                 return v;
             }
@@ -500,7 +510,7 @@ public class MapsActivity extends AppCompatActivity implements
                 incident.setLocationDescription(locationDescriptionInput.getText().toString());
                 incident.setStatus(CMS_STATUS_PENDING);
                 incident.setTitle(titleInput.getText().toString());
-                incident.setType(typeCategory.getSelectedItem().toString());
+                incident.setType(((Category) typeCategory.getSelectedItem()).getValue());
                 incident.setUpdatedAt(new Date());
                 incident.setImageUri(uri.toString());
 
