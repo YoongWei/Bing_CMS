@@ -96,11 +96,12 @@ import static com.ntu.cz3003.CMS.Constants.DATE_FORMAT;
 import static com.ntu.cz3003.CMS.Constants.REQUEST_CODE_IMAGE_OPEN;
 
 /**
- MapActivity class displays map , waste location and handling submit request, make
- reservation activity.
- @author ILoveNTU
- @version 2.1
- @since 2019-01-15
+ * MapActivity class displays map , waste location and handling submit request, make
+ * reservation activity.
+ *
+ * @author ILoveNTU
+ * @version 2.1
+ * @since 2019-01-15
  */
 
 public class MapsActivity extends AppCompatActivity implements
@@ -386,14 +387,13 @@ public class MapsActivity extends AppCompatActivity implements
 
                         case MODIFIED:
                             if (existingMarker != null) {
-                                existingMarker.setPosition(latlng);
-                                existingMarker.setTitle(incident.getType());
-                                existingMarker.setTag(incident);
+                                existingMarker.remove();
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()).icon(getMarkerColorByIncidentStatus(incident.getStatus())));
+                                marker.setTag(incident);
 
-                                mapMarkerManager.put(incident.getId(), existingMarker);
-                            }
-                            else {
-                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()));
+                                mapMarkerManager.put(incident.getId(), marker);
+                            } else {
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(incident.getType()).icon(getMarkerColorByIncidentStatus(incident.getStatus())));
                                 marker.setTag(incident);
                                 mapMarkerManager.put(incident.getId(), marker);
                             }
@@ -441,7 +441,7 @@ public class MapsActivity extends AppCompatActivity implements
                     LatLng latlng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, MY_LOCATION_ZOOM);
                     mMap.animateCamera(cameraUpdate);
-                    myLocationButton.setColorFilter(Color.argb(255,88,150,228));
+                    myLocationButton.setColorFilter(Color.argb(255, 88, 150, 228));
                 }
             }
         });
@@ -460,8 +460,7 @@ public class MapsActivity extends AppCompatActivity implements
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY()) && !buttonRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     submitFormBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
-            }
-            else if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            } else if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                 Rect outRect = new Rect();
                 incidentDetailBottomSheet.getGlobalVisibleRect(outRect);
 
@@ -470,7 +469,7 @@ public class MapsActivity extends AppCompatActivity implements
                 }
             }
         }
-        myLocationButton.setColorFilter(Color.argb(255,0,0,0));
+        myLocationButton.setColorFilter(Color.argb(255, 0, 0, 0));
         return super.dispatchTouchEvent(event);
     }
 
@@ -480,7 +479,7 @@ public class MapsActivity extends AppCompatActivity implements
             return;
         }
 
-		incidentCounter++;
+        incidentCounter++;
         Map<String, Integer> data = new HashMap<>();
         data.put("lastInsertedId", incidentCounter);
         incidentCounterDocument.set(data);
@@ -547,14 +546,13 @@ public class MapsActivity extends AppCompatActivity implements
         });
     }
 
-    private String getAddressName(GeoPoint geoPoint)
-    {
+    private String getAddressName(GeoPoint geoPoint) {
         String myAddress = "";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        try{
-            List<Address> addresses = geocoder.getFromLocation(geoPoint.getLatitude(),geoPoint.getLongitude(),1);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
             myAddress = addresses.get(0).getAddressLine(0);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return myAddress;
@@ -570,14 +568,11 @@ public class MapsActivity extends AppCompatActivity implements
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else if (submitFormBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+        } else if (submitFormBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             submitFormBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-        else if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+        } else if (incidentDetailBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -604,12 +599,11 @@ public class MapsActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_request) {
-            Intent i = new Intent(getApplicationContext(),IncidentActivity.class);
+            Intent i = new Intent(getApplicationContext(), IncidentActivity.class);
             i.putExtra("FROM_ACTIVITY", "MapsActivity");
             startActivity(i);
-        }
-        else if (id == R.id.nav_logout) {
-            Intent i = new Intent(getApplicationContext(),LogoutActivity.class);
+        } else if (id == R.id.nav_logout) {
+            Intent i = new Intent(getApplicationContext(), LogoutActivity.class);
             i.putExtra("FROM_ACTIVITY", "MapsActivity");
             startActivity(i);
         }
@@ -650,8 +644,7 @@ public class MapsActivity extends AppCompatActivity implements
 
                 Picasso.get().load(incident.getImageUri()).into(incidentImageView);
                 incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-            else {
+            } else {
                 incidentDetailBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         }
@@ -677,8 +670,7 @@ public class MapsActivity extends AppCompatActivity implements
     private BitmapDescriptor getMarkerColorByIncidentStatus(String status) {
         if (status.equals(CMS_STATUS_PENDING)) {
             return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
-        }
-        else if (status.equals(CMS_STATUS_OPEN)) {
+        } else if (status.equals(CMS_STATUS_OPEN)) {
             return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         }
 
